@@ -1,0 +1,131 @@
+<div class="home-wrap">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Bienvenido a</p>
+      <h1 class="hero-title">Corte & Clase</h1>
+      <p class="hero-desc">Barbería profesional. Cortes precisos, atención personalizada y la mejor experiencia en cada visita.</p>
+      <div class="hero-actions">
+        <a routerLink="/gestion" class="btn-primary">Reservar Cita</a>
+        <a href="#servicios" class="btn-ghost">Ver servicios</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-badge">
+        <span class="hero-badge-icon">✂</span>
+        <span class="hero-badge-text">Profesionales</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Servicios destacados -->
+  <section class="section" id="servicios">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Lo que ofrecemos</p>
+        <h2 class="section-title">Nuestros Servicios</h2>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <span class="service-icon">✂️</span>
+          <h3 class="service-name">Corte Clásico</h3>
+          <p class="service-desc">Tijera y máquina con acabado perfecto</p>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">💈</span>
+          <h3 class="service-name">Degradado</h3>
+          <p class="service-desc">Fade preciso a cualquier nivel</p>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">🪒</span>
+          <h3 class="service-name">Arreglo de Barba</h3>
+          <p class="service-desc">Perfilado y afeitado profesional</p>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">⚡</span>
+          <h3 class="service-name">Diseño</h3>
+          <p class="service-desc">Líneas y diseños a tu medida</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <h2 class="cta-title">¿Listo para tu próxima cita?</h2>
+      <p class="cta-sub">Agenda en minutos y elige tu barbero favorito</p>
+      <a routerLink="/gestion" class="btn-primary">Reservar ahora</a>
+    </div>
+  </section>
+
+</div>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0e0e10; --surface: #161618; --card: #1a1a1d;
+    --border: #222226; --border2: #2e2e34;
+    --text: #d8d8dc; --muted: #606068; --muted2: #48484e;
+  }
+
+  .home-wrap { min-height: calc(100vh - 58px); background: var(--bg); }
+
+  /* Hero */
+  .hero {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 80px 60px; max-width: 1100px; margin: 0 auto; gap: 40px;
+    min-height: 480px;
+  }
+  .hero-content { max-width: 520px; }
+  .hero-eyebrow { color: var(--muted); font-size: 12px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 14px; }
+  .hero-title {
+    color: var(--text); font-family: 'Georgia', serif;
+    font-size: 56px; font-weight: 700; line-height: 1.1; margin-bottom: 20px;
+  }
+  .hero-desc { color: var(--muted); font-size: 16px; line-height: 1.7; margin-bottom: 36px; max-width: 420px; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: #1e1e22; border: 1px solid var(--border2); color: var(--text);
+    padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600;
+    text-decoration: none; cursor: pointer; transition: all .2s; display: inline-block;
+  }
+  .btn-primary:hover { background: #282830; border-color: #42424a; }
+  .btn-ghost {
+    background: transparent; border: 1px solid var(--border); color: var(--muted);
+    padding: 12px 28px; border-radius: 8px; font-size: 14px;
+    text-decoration: none; transition: all .2s; display: inline-block;
+  }
+  .btn-ghost:hover { color: var(--text); border-color: var(--border2); }
+  .hero-visual {
+    width: 220px; height: 220px; border-radius: 50%;
+    border: 1px solid var(--border); background: var(--surface);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .hero-badge { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .hero-badge-icon { font-size: 48px; color: var(--muted); }
+  .hero-badge-text { color: var(--muted2); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; }
+
+  /* Servicios */
+  .section { border-top: 1px solid var(--border); padding: 70px 60px; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-head { margin-bottom: 40px; }
+  .section-eyebrow { color: var(--muted); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
+  .section-title { color: var(--text); font-family: 'Georgia', serif; font-size: 28px; font-weight: 700; }
+  .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .service-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 28px 22px; transition: border-color .2s;
+  }
+  .service-card:hover { border-color: var(--border2); }
+  .service-icon { font-size: 26px; display: block; margin-bottom: 16px; }
+  .service-name { color: var(--text); font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .service-desc { color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+  /* CTA */
+  .cta-section { border-top: 1px solid var(--border); padding: 70px 60px; }
+  .cta-inner { max-width: 1100px; margin: 0 auto; text-align: center; }
+  .cta-title { color: var(--text); font-family: 'Georgia', serif; font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+  .cta-sub { color: var(--muted); font-size: 15px; margin-bottom: 32px; }
+</style>

@@ -1,0 +1,80 @@
+<nav *ngIf="!esLoginPage" class="navbar">
+  <a routerLink="/" class="navbar-logo">
+    <span class="logo-icon">✂</span>
+    <span class="logo-text">Corte & Clase</span>
+  </a>
+
+  <!-- Navegación pública -->
+  <div class="navbar-links" *ngIf="!esAdmin">
+    <a routerLink="/" routerLinkActive="nav-active" [routerLinkActiveOptions]="{exact:true}" class="nav-link">Inicio</a>
+    <a routerLink="/gestion" routerLinkActive="nav-active" class="nav-link">Reservas</a>
+    <a routerLink="/login" class="nav-btn">Admin</a>
+  </div>
+
+  <!-- Navegación admin -->
+  <div class="navbar-links" *ngIf="esAdmin">
+    <a routerLink="/admin"           routerLinkActive="nav-active" [routerLinkActiveOptions]="{exact:true}" class="nav-link">Dashboard</a>
+    <a routerLink="/admin/barberos"  routerLinkActive="nav-active" class="nav-link">Barberos</a>
+    <a routerLink="/admin/servicios" routerLinkActive="nav-active" class="nav-link">Servicios</a>
+    <a routerLink="/admin/citas"     routerLinkActive="nav-active" class="nav-link">Citas</a>
+    <button (click)="cerrarSesion()" class="nav-btn nav-btn-danger">Salir</button>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    background: #111113;
+    border-bottom: 1px solid #222226;
+    padding: 0 32px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+  .logo-icon { color: #a0a0a8; font-size: 18px; }
+  .logo-text {
+    font-family: 'Georgia', serif;
+    font-weight: 700;
+    color: #e2e2e4;
+    font-size: 15px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .navbar-links { display: flex; align-items: center; gap: 4px; }
+  .nav-link {
+    color: #686870;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: color .2s, background .2s;
+  }
+  .nav-link:hover { color: #c8c8cc; background: #1c1c1f; }
+  .nav-active { color: #c8c8cc !important; }
+  .nav-btn {
+    margin-left: 8px;
+    padding: 6px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid #2e2e33;
+    background: #1a1a1d;
+    color: #c8c8cc;
+    text-decoration: none;
+    transition: all .2s;
+  }
+  .nav-btn:hover { background: #242428; border-color: #3a3a40; color: #e8e8ec; }
+  .nav-btn-danger { border-color: #3d1f1f; background: #1f1414; color: #c87070; }
+  .nav-btn-danger:hover { background: #2a1a1a; border-color: #5a2a2a; color: #e08080; }
+</style>

@@ -1,0 +1,182 @@
+<!-- Cargando -->
+<div *ngIf="cargando" class="state-screen">
+  <span class="state-icon">✂</span>
+  <p class="state-text">Cargando estadísticas...</p>
+</div>
+
+<!-- Error -->
+<div *ngIf="errorCarga" class="state-screen">
+  <span class="state-icon">⚠</span>
+  <p class="state-title">El servidor no responde</p>
+  <p class="state-sub">El backend puede estar iniciando. Intenta de nuevo.</p>
+  <button (click)="cargarDatos()" class="btn-retry">Reintentar</button>
+</div>
+
+<!-- Contenido -->
+<div *ngIf="!cargando && !errorCarga" class="page-wrap">
+
+  <div class="page-header">
+    <div>
+      <p class="page-eyebrow">Panel de control</p>
+      <h1 class="page-title">Dashboard</h1>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-icon-sm">💈</span>
+        <span class="stat-tag">Activos</span>
+      </div>
+      <p class="stat-value">{{ totalBarberos }}</p>
+      <p class="stat-label">Barberos</p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-icon-sm">✂️</span>
+        <span class="stat-tag">Disponibles</span>
+      </div>
+      <p class="stat-value">{{ totalServicios }}</p>
+      <p class="stat-label">Servicios</p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-icon-sm">📅</span>
+        <span class="stat-tag">Registradas</span>
+      </div>
+      <p class="stat-value">{{ totalCitas }}</p>
+      <p class="stat-label">Citas</p>
+    </div>
+    <!-- ✅ Ingresos en COP -->
+    <div class="stat-card stat-card-highlight">
+      <div class="stat-header">
+        <span class="stat-icon-sm">💵</span>
+        <span class="stat-tag">Total</span>
+      </div>
+      <p class="stat-value stat-value-cop">{{ ingresos | currency:'COP':'symbol-narrow':'1.0-0':'es-CO' }}</p>
+      <p class="stat-label">Ingresos</p>
+    </div>
+  </div>
+
+  <!-- Gestión rápida -->
+  <div class="section">
+    <div class="section-title-row">
+      <span class="section-line"></span>
+      <h2 class="section-title">Gestión rápida</h2>
+    </div>
+    <div class="quick-grid">
+      <a routerLink="/admin/barberos" class="quick-card">
+        <span class="quick-icon">💈</span>
+        <div class="quick-info">
+          <p class="quick-name">Barberos</p>
+          <p class="quick-sub">Agregar o eliminar</p>
+        </div>
+        <span class="quick-arrow">›</span>
+      </a>
+      <a routerLink="/admin/servicios" class="quick-card">
+        <span class="quick-icon">✂️</span>
+        <div class="quick-info">
+          <p class="quick-name">Servicios</p>
+          <p class="quick-sub">Precios y cortes</p>
+        </div>
+        <span class="quick-arrow">›</span>
+      </a>
+      <a routerLink="/admin/citas" class="quick-card">
+        <span class="quick-icon">📅</span>
+        <div class="quick-info">
+          <p class="quick-name">Citas</p>
+          <p class="quick-sub">Ver y cancelar</p>
+        </div>
+        <span class="quick-arrow">›</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  :root {
+    --bg:       #0e0e10;
+    --surface:  #161618;
+    --card:     #1a1a1d;
+    --border:   #222226;
+    --border2:  #2e2e34;
+    --text:     #d8d8dc;
+    --muted:    #606068;
+    --muted2:   #48484e;
+    --accent:   #8a8a96;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── Shared ── */
+  .state-screen {
+    min-height: calc(100vh - 58px);
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 12px;
+    text-align: center; padding: 24px;
+  }
+  .state-icon { font-size: 36px; color: var(--muted); }
+  .state-text { color: var(--muted); font-size: 15px; }
+  .state-title { color: var(--text); font-size: 20px; font-weight: 600; }
+  .state-sub { color: var(--muted); font-size: 14px; max-width: 340px; }
+  .btn-retry {
+    margin-top: 8px;
+    background: var(--card); border: 1px solid var(--border2);
+    color: var(--text); padding: 10px 24px; border-radius: 8px;
+    cursor: pointer; font-size: 14px; font-weight: 500; transition: all .2s;
+  }
+  .btn-retry:hover { background: #222228; border-color: #404048; }
+
+  .page-wrap {
+    min-height: calc(100vh - 58px);
+    background: var(--bg);
+    padding: 40px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .page-header { margin-bottom: 36px; }
+  .page-eyebrow { color: var(--muted); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
+  .page-title { color: var(--text); font-family: 'Georgia', serif; font-size: 30px; font-weight: 700; }
+
+  /* ── Stats ── */
+  .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 40px; }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 22px 20px; transition: border-color .2s;
+  }
+  .stat-card:hover { border-color: var(--border2); }
+  .stat-card-highlight { border-color: #2a2a32; }
+  .stat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+  .stat-icon-sm { font-size: 20px; }
+  .stat-tag {
+    font-size: 10px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--muted2);
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 3px 8px; border-radius: 20px;
+  }
+  .stat-value { color: var(--text); font-size: 36px; font-weight: 700; font-family: 'Georgia', serif; margin-bottom: 4px; line-height: 1; }
+  .stat-value-cop { font-size: 22px; }
+  .stat-label { color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+
+  /* ── Section ── */
+  .section-title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .section-line { width: 3px; height: 18px; background: var(--border2); border-radius: 2px; }
+  .section-title { color: var(--text); font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+
+  /* ── Quick ── */
+  .quick-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+  .quick-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 18px 20px;
+    display: flex; align-items: center; gap: 14px;
+    text-decoration: none; transition: all .2s; cursor: pointer;
+  }
+  .quick-card:hover { background: #1e1e22; border-color: var(--border2); }
+  .quick-icon { font-size: 24px; }
+  .quick-info { flex: 1; }
+  .quick-name { color: var(--text); font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+  .quick-sub { color: var(--muted); font-size: 12px; }
+  .quick-arrow { color: var(--muted2); font-size: 22px; }
+</style>

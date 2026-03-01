@@ -1,0 +1,94 @@
+<div class="page-wrap">
+
+  <div class="page-header">
+    <div>
+      <p class="page-eyebrow">Administración</p>
+      <h1 class="page-title">Gestión de Citas</h1>
+    </div>
+    <span *ngIf="!cargando" class="badge">{{ citas.length }} cita(s) registradas</span>
+  </div>
+
+  <div *ngIf="cargando" class="empty-state">
+    <p class="empty-text loading">Cargando citas...</p>
+  </div>
+
+  <div class="card" *ngIf="!cargando">
+    <div *ngIf="citas.length === 0" class="empty-state">
+      <p class="empty-icon">📅</p>
+      <p class="empty-text">No hay citas registradas</p>
+    </div>
+
+    <table *ngIf="citas.length > 0" class="data-table">
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Barbero</th>
+          <th>Servicio</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th class="th-center">Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of citas">
+          <td class="td-primary">{{ c.cliente }}</td>
+          <td class="td-muted">{{ c.barbero }}</td>
+          <td>
+            <span class="service-tag">{{ c.servicio }}</span>
+          </td>
+          <td class="td-muted td-mono">{{ c.fecha }}</td>
+          <td class="td-muted td-mono">{{ c.hora }}</td>
+          <td class="td-center">
+            <button (click)="cancelarCita(c.id)" class="btn-danger-sm">Cancelar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0e0e10; --surface: #161618; --card: #1a1a1d;
+    --border: #222226; --border2: #2e2e34;
+    --text: #d8d8dc; --muted: #606068; --muted2: #48484e;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  .page-wrap { min-height: calc(100vh - 58px); background: var(--bg); padding: 40px; max-width: 1100px; margin: 0 auto; }
+  .page-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; }
+  .page-eyebrow { color: var(--muted); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
+  .page-title { color: var(--text); font-family: 'Georgia', serif; font-size: 28px; font-weight: 700; }
+  .badge { background: var(--card); border: 1px solid var(--border); color: var(--muted2); font-size: 12px; padding: 5px 14px; border-radius: 20px; }
+
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .empty-state { padding: 64px 20px; text-align: center; }
+  .empty-icon { font-size: 28px; margin-bottom: 10px; }
+  .empty-text { color: var(--muted); font-size: 14px; }
+  .loading { animation: pulse 1.5s infinite; }
+
+  .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+  .data-table thead { background: var(--surface); }
+  .data-table th { padding: 13px 20px; color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+  .data-table tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
+  .data-table tbody tr:last-child { border-bottom: none; }
+  .data-table tbody tr:hover { background: #1e1e22; }
+  .td-primary { padding: 15px 20px; color: var(--text); font-weight: 500; }
+  .td-muted { padding: 15px 20px; color: var(--muted); }
+  .td-mono { font-variant-numeric: tabular-nums; font-size: 13px; }
+  .th-center, .td-center { text-align: center; padding: 15px 20px; }
+
+  .service-tag {
+    display: inline-block;
+    background: var(--surface); border: 1px solid var(--border2);
+    color: #8a8a96; font-size: 12px; padding: 3px 10px; border-radius: 20px;
+    margin: 15px 20px;
+  }
+  .btn-danger-sm {
+    background: #1f1414; border: 1px solid #3d1f1f; color: #c87070;
+    padding: 5px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all .2s;
+  }
+  .btn-danger-sm:hover { background: #2a1a1a; border-color: #5a2a2a; }
+</style>

@@ -1,0 +1,194 @@
+<!-- Cargando -->
+<div *ngIf="cargando" class="state-screen">
+  <span class="state-icon">✂</span>
+  <p class="state-text">Cargando disponibilidad...</p>
+</div>
+
+<!-- Error -->
+<div *ngIf="errorCarga" class="state-screen">
+  <span class="state-icon">⚠</span>
+  <p class="state-title">El servidor no responde</p>
+  <p class="state-sub">El backend puede estar iniciando. Intenta de nuevo en unos segundos.</p>
+  <button (click)="cargarDatos()" class="btn-retry">Reintentar</button>
+</div>
+
+<!-- Contenido -->
+<div *ngIf="!cargando && !errorCarga" class="gestion-wrap">
+
+  <div class="gestion-hero">
+    <h1 class="hero-title">Reserva tu Cita</h1>
+    <p class="hero-sub">Elige tu barbero, servicio, fecha y hora</p>
+  </div>
+
+  <div class="gestion-body">
+    <div class="gestion-grid">
+
+      <!-- FORMULARIO -->
+      <div class="form-col">
+        <div class="card sticky-card">
+          <div class="card-head">
+            <span class="card-head-label">📅 Nueva Cita</span>
+          </div>
+          <div class="form-body">
+            <div *ngIf="mensajeExito" class="alert-success">{{ mensajeExito }}</div>
+
+            <div class="form-group">
+              <label class="form-label">Tu nombre</label>
+              <input [(ngModel)]="cliente" type="text" placeholder="Ej: Juan Pérez" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Barbero</label>
+              <select [(ngModel)]="idBarbero" class="form-input">
+                <option value="">— Selecciona barbero —</option>
+                <option *ngFor="let b of barberos" [value]="b.id">{{ b.nombre }} · {{ b.especialidad }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Servicio</label>
+              <select [(ngModel)]="idServicio" class="form-input">
+                <option value="">— Selecciona servicio —</option>
+                <!-- ✅ Precio en COP -->
+                <option *ngFor="let s of servicios" [value]="s.id">
+                  {{ s.nombre }} — {{ s.precio | currency:'COP':'symbol-narrow':'1.0-0':'es-CO' }}
+                </option>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Fecha</label>
+                <input [(ngModel)]="fecha" type="date" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Hora</label>
+                <input [(ngModel)]="hora" type="time" class="form-input">
+              </div>
+            </div>
+            <button (click)="agendar()" [disabled]="enviando" class="btn-confirm">
+              {{ enviando ? 'Guardando...' : 'Confirmar Reserva' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLA -->
+      <div class="table-col">
+        <div class="table-header-row">
+          <h2 class="table-title">Citas Agendadas</h2>
+          <span class="badge">{{ citas.length }}</span>
+        </div>
+
+        <div *ngIf="citas.length === 0" class="card empty-card">
+          <p class="empty-icon">📋</p>
+          <p class="empty-text">Aún no hay citas registradas</p>
+          <p class="empty-sub">¡Sé el primero en reservar!</p>
+        </div>
+
+        <div *ngIf="citas.length > 0" class="card">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Barbero</th>
+                <th>Servicio</th>
+                <th>Fecha / Hora</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let c of citas">
+                <td class="td-primary">{{ c.cliente }}</td>
+                <td class="td-muted">{{ c.barbero }}</td>
+                <td><span class="service-tag">{{ c.servicio }}</span></td>
+                <td class="td-muted td-mono">
+                  {{ c.fecha }}<br>
+                  <span class="td-time">{{ c.hora }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0e0e10; --surface: #161618; --card: #1a1a1d;
+    --border: #222226; --border2: #2e2e34;
+    --text: #d8d8dc; --muted: #606068; --muted2: #48484e;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  .state-screen {
+    min-height: calc(100vh - 58px); background: var(--bg);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; padding: 24px;
+  }
+  .state-icon { font-size: 32px; color: var(--muted); }
+  .state-text { color: var(--muted); font-size: 15px; }
+  .state-title { color: var(--text); font-size: 20px; font-weight: 600; }
+  .state-sub { color: var(--muted); font-size: 14px; max-width: 340px; }
+  .btn-retry {
+    margin-top: 8px; background: var(--card); border: 1px solid var(--border2);
+    color: var(--text); padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all .2s;
+  }
+  .btn-retry:hover { background: #222228; }
+
+  .gestion-wrap { min-height: calc(100vh - 58px); background: var(--bg); }
+  .gestion-hero { background: var(--surface); border-bottom: 1px solid var(--border); padding: 36px 40px; text-align: center; }
+  .hero-title { color: var(--text); font-family: 'Georgia', serif; font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+  .hero-sub { color: var(--muted); font-size: 14px; }
+  .gestion-body { max-width: 1100px; margin: 0 auto; padding: 36px 40px; }
+  .gestion-grid { display: grid; grid-template-columns: 360px 1fr; gap: 28px; align-items: start; }
+  .sticky-card { position: sticky; top: 74px; }
+
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .card-head { padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .card-head-label { color: var(--muted); font-size: 12px; font-weight: 600; letter-spacing: 1px; }
+  .form-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-label { color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+  .form-input {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; color: var(--text); font-size: 14px; outline: none; transition: border-color .2s; width: 100%;
+  }
+  .form-input::placeholder { color: var(--muted2); }
+  .form-input:focus { border-color: var(--border2); }
+  option { background: var(--surface); color: var(--text); }
+  .alert-success {
+    background: #141e16; border: 1px solid #1e3a22; color: #70a878;
+    border-radius: 8px; padding: 10px 14px; font-size: 14px; text-align: center;
+  }
+  .btn-confirm {
+    background: #1e1e22; border: 1px solid var(--border2); color: var(--text);
+    padding: 13px 20px; border-radius: 8px; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all .2s; width: 100%; letter-spacing: 1px;
+  }
+  .btn-confirm:hover:not(:disabled) { background: #282830; border-color: #42424a; }
+  .btn-confirm:disabled { opacity: .4; cursor: not-allowed; }
+
+  .table-header-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .table-title { color: var(--text); font-size: 16px; font-weight: 600; }
+  .badge { background: var(--card); border: 1px solid var(--border); color: var(--muted2); font-size: 12px; padding: 3px 12px; border-radius: 20px; }
+  .empty-card { padding: 48px 20px; text-align: center; }
+  .empty-icon { font-size: 28px; margin-bottom: 10px; }
+  .empty-text { color: var(--muted); font-size: 14px; margin-bottom: 4px; }
+  .empty-sub { color: var(--muted2); font-size: 12px; }
+
+  .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+  .data-table thead { background: var(--surface); }
+  .data-table th { padding: 12px 18px; color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+  .data-table tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
+  .data-table tbody tr:last-child { border-bottom: none; }
+  .data-table tbody tr:hover { background: #1e1e22; }
+  .td-primary { padding: 14px 18px; color: var(--text); font-weight: 500; }
+  .td-muted { padding: 14px 18px; color: var(--muted); }
+  .td-mono { font-variant-numeric: tabular-nums; font-size: 13px; }
+  .td-time { font-size: 12px; color: var(--muted2); }
+  .service-tag {
+    display: inline-block; background: var(--surface); border: 1px solid var(--border2);
+    color: #8a8a96; font-size: 12px; padding: 3px 10px; border-radius: 20px; margin: 14px 18px;
+  }
+</style>

@@ -1,0 +1,93 @@
+<div class="login-page">
+  <div class="login-card">
+
+    <div class="login-brand">
+      <span class="login-icon">✂</span>
+      <h2 class="login-title">Panel Admin</h2>
+      <p class="login-sub">Corte & Clase</p>
+    </div>
+
+    <div class="login-form">
+      <div class="form-group">
+        <label class="form-label">Usuario</label>
+        <input [(ngModel)]="usuario" type="text" placeholder="Ingresa tu usuario" class="form-input">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Contraseña</label>
+        <input [(ngModel)]="password" type="password" placeholder="••••••••" class="form-input">
+      </div>
+      <button (click)="login()" [disabled]="cargando" class="btn-primary" style="width:100%; margin-top: 8px;">
+        {{ cargando ? 'Verificando...' : 'Ingresar' }}
+      </button>
+      <p *ngIf="error" class="login-error">{{ error }}</p>
+    </div>
+
+    <div class="login-footer">
+      <a routerLink="/" class="login-back">← Volver al inicio</a>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .login-page {
+    min-height: 100vh;
+    background: #0e0e10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .login-card {
+    background: #161618;
+    border: 1px solid #222226;
+    border-radius: 14px;
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 380px;
+  }
+  .login-brand { text-align: center; margin-bottom: 32px; }
+  .login-icon { font-size: 28px; display: block; margin-bottom: 12px; color: #888; }
+  .login-title {
+    font-family: 'Georgia', serif;
+    color: #e0e0e3;
+    font-size: 22px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .login-sub { color: #505055; font-size: 13px; }
+  .login-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label { color: #606065; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+  .form-input {
+    background: #0e0e10;
+    border: 1px solid #222226;
+    border-radius: 8px;
+    padding: 11px 14px;
+    color: #d0d0d4;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .form-input::placeholder { color: #404045; }
+  .form-input:focus { border-color: #484850; }
+  .btn-primary {
+    background: #1e1e22;
+    border: 1px solid #32323a;
+    color: #c8c8cc;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    letter-spacing: 1px;
+  }
+  .btn-primary:hover:not(:disabled) { background: #282830; border-color: #44444e; color: #e8e8ec; }
+  .btn-primary:disabled { opacity: .4; cursor: not-allowed; }
+  .login-error { color: #c87070; font-size: 13px; text-align: center; margin-top: 8px; }
+  .login-footer { text-align: center; margin-top: 24px; }
+  .login-back { color: #484850; font-size: 13px; text-decoration: none; transition: color .2s; }
+  .login-back:hover { color: #888890; }
+</style>
