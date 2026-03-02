@@ -26,11 +26,11 @@ export class AdminBarberos implements OnInit {
       next: (res) => {
         this.barberos = res;
         this.cargando = false;
-        this.cd.detectChanges(); // ✅
+        this.cd.detectChanges(); 
       },
       error: () => {
         this.cargando = false;
-        this.cd.detectChanges(); // ✅
+        this.cd.detectChanges(); 
       }
     });
   }

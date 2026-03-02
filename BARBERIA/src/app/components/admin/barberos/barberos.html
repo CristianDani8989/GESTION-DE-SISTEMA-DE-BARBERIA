@@ -1,44 +1,46 @@
-<div class="page-wrap">
+<div class="min-h-screen bg-zinc-950 px-8 py-10 max-w-5xl mx-auto">
 
-  <div class="page-header">
-    <div>
-      <p class="page-eyebrow">Administración</p>
-      <h1 class="page-title">Barberos</h1>
-    </div>
+  <div class="mb-8">
+    <p class="text-xs font-semibold text-indigo-400 uppercase tracking-[0.25em] mb-1">Administración</p>
+    <h1 class="text-3xl font-bold text-zinc-100">Barberos</h1>
   </div>
 
-  <div class="two-col">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 
     <!-- Tabla -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-head-label">Equipo</span>
-        <span class="badge">{{ barberos.length }} registrados</span>
+    <div class="lg:col-span-2 bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+      <div class="px-6 py-4 border-b border-zinc-800 flex items-center justify-between">
+        <p class="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Equipo</p>
+        <span class="text-xs text-zinc-500 bg-zinc-800 border border-zinc-700 px-3 py-1 rounded-full">
+          {{ barberos.length }} registrados
+        </span>
       </div>
 
-      <div *ngIf="cargando" class="empty-state">
-        <p class="empty-text" style="animation: pulse 1.5s infinite">Cargando...</p>
+      <div *ngIf="cargando" class="px-6 py-16 text-center">
+        <p class="text-zinc-600 text-sm animate-pulse">Cargando...</p>
       </div>
 
-      <div *ngIf="!cargando && barberos.length === 0" class="empty-state">
-        <p class="empty-icon">💈</p>
-        <p class="empty-text">No hay barberos registrados</p>
+      <div *ngIf="!cargando && barberos.length === 0" class="px-6 py-16 text-center">
+        <p class="text-zinc-600 text-sm">No hay barberos registrados</p>
       </div>
 
-      <table *ngIf="!cargando && barberos.length > 0" class="data-table">
-        <thead>
+      <table *ngIf="!cargando && barberos.length > 0" class="w-full text-sm">
+        <thead class="bg-zinc-950">
           <tr>
-            <th>Nombre</th>
-            <th>Especialidad</th>
-            <th class="th-center">Acción</th>
+            <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Nombre</th>
+            <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Especialidad</th>
+            <th class="px-6 py-3 text-center text-xs font-semibold text-zinc-500 uppercase tracking-widest">Acción</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let b of barberos">
-            <td class="td-primary">{{ b.nombre }}</td>
-            <td class="td-muted">{{ b.especialidad }}</td>
-            <td class="td-center">
-              <button (click)="eliminarBarbero(b.id!)" class="btn-danger-sm">Eliminar</button>
+        <tbody class="divide-y divide-zinc-800">
+          <tr *ngFor="let b of barberos" class="hover:bg-zinc-800/50 transition-colors">
+            <td class="px-6 py-4 text-zinc-100 font-medium">{{ b.nombre }}</td>
+            <td class="px-6 py-4 text-zinc-400">{{ b.especialidad }}</td>
+            <td class="px-6 py-4 text-center">
+              <button (click)="eliminarBarbero(b.id!)"
+                class="text-xs font-semibold text-red-400 hover:text-red-300 bg-red-950/40 hover:bg-red-950/70 border border-red-900/50 px-3 py-1.5 rounded-md transition-colors">
+                Eliminar
+              </button>
             </td>
           </tr>
         </tbody>
@@ -46,85 +48,27 @@
     </div>
 
     <!-- Formulario -->
-    <div class="card form-card">
-      <div class="card-head">
-        <span class="card-head-label">Nuevo Barbero</span>
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+      <div class="px-6 py-4 border-b border-zinc-800">
+        <p class="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Nuevo Barbero</p>
       </div>
-      <div class="form-body">
-        <div class="form-group">
-          <label class="form-label">Nombre completo</label>
-          <input [(ngModel)]="nombre" type="text" placeholder="Ej: Carlos Mendoza" class="form-input">
+      <div class="p-6 space-y-4">
+        <div class="space-y-1.5">
+          <label class="text-xs font-semibold text-zinc-500 uppercase tracking-widest">Nombre completo</label>
+          <input [(ngModel)]="nombre" type="text" placeholder="Ej: Carlos Mendoza"
+            class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-4 py-2.5 text-zinc-100 text-sm placeholder-zinc-600 focus:outline-none focus:border-indigo-500 transition-colors">
         </div>
-        <div class="form-group">
-          <label class="form-label">Especialidad</label>
-          <input [(ngModel)]="especialidad" type="text" placeholder="Ej: Degradado y diseño" class="form-input">
+        <div class="space-y-1.5">
+          <label class="text-xs font-semibold text-zinc-500 uppercase tracking-widest">Especialidad</label>
+          <input [(ngModel)]="especialidad" type="text" placeholder="Ej: Degradado y diseño"
+            class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-4 py-2.5 text-zinc-100 text-sm placeholder-zinc-600 focus:outline-none focus:border-indigo-500 transition-colors">
         </div>
-        <button (click)="agregarBarbero()" class="btn-primary">+ Agregar barbero</button>
+        <button (click)="agregarBarbero()"
+          class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-lg text-sm transition-colors">
+          Agregar barbero
+        </button>
       </div>
     </div>
 
   </div>
 </div>
-
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #0e0e10; --surface: #161618; --card: #1a1a1d;
-    --border: #222226; --border2: #2e2e34;
-    --text: #d8d8dc; --muted: #606068; --muted2: #48484e;
-  }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-
-  .page-wrap { min-height: calc(100vh - 58px); background: var(--bg); padding: 40px; max-width: 1100px; margin: 0 auto; }
-  .page-header { margin-bottom: 32px; }
-  .page-eyebrow { color: var(--muted); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
-  .page-title { color: var(--text); font-family: 'Georgia', serif; font-size: 28px; font-weight: 700; }
-
-  .two-col { display: grid; grid-template-columns: 1fr 320px; gap: 20px; align-items: start; }
-
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-  .form-card { overflow: visible; }
-  .card-head {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 14px 20px; border-bottom: 1px solid var(--border);
-  }
-  .card-head-label { color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
-  .badge { background: var(--surface); border: 1px solid var(--border); color: var(--muted2); font-size: 11px; padding: 3px 10px; border-radius: 20px; }
-
-  .empty-state { padding: 48px 20px; text-align: center; }
-  .empty-icon { font-size: 28px; margin-bottom: 10px; }
-  .empty-text { color: var(--muted); font-size: 14px; }
-
-  .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-  .data-table thead { background: var(--surface); }
-  .data-table th { padding: 12px 20px; color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
-  .data-table tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
-  .data-table tbody tr:last-child { border-bottom: none; }
-  .data-table tbody tr:hover { background: #1e1e22; }
-  .td-primary { padding: 14px 20px; color: var(--text); font-weight: 500; }
-  .td-muted { padding: 14px 20px; color: var(--muted); }
-  .th-center, .td-center { text-align: center; padding: 14px 20px; }
-
-  .btn-danger-sm {
-    background: #1f1414; border: 1px solid #3d1f1f; color: #c87070;
-    padding: 5px 14px; border-radius: 6px; font-size: 12px; font-weight: 500;
-    cursor: pointer; transition: all .2s;
-  }
-  .btn-danger-sm:hover { background: #2a1a1a; border-color: #5a2a2a; }
-
-  .form-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-label { color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
-  .form-input {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-    padding: 10px 14px; color: var(--text); font-size: 14px; outline: none; transition: border-color .2s;
-  }
-  .form-input::placeholder { color: var(--muted2); }
-  .form-input:focus { border-color: var(--border2); }
-  .btn-primary {
-    background: #1e1e22; border: 1px solid var(--border2); color: var(--text);
-    padding: 11px 20px; border-radius: 8px; font-size: 14px; font-weight: 500;
-    cursor: pointer; transition: all .2s; width: 100%;
-  }
-  .btn-primary:hover { background: #252528; border-color: #42424a; }
-</style>

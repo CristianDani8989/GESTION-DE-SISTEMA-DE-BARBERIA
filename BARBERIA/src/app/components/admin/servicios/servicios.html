@@ -1,47 +1,54 @@
-<div class="page-wrap">
+<div class="min-h-screen bg-zinc-950 px-8 py-10 max-w-5xl mx-auto">
 
-  <div class="page-header">
-    <div>
-      <p class="page-eyebrow">Administración</p>
-      <h1 class="page-title">Servicios</h1>
-    </div>
+  <div class="mb-8">
+    <p class="text-xs font-semibold text-indigo-400 uppercase tracking-[0.25em] mb-1">Administración</p>
+    <h1 class="text-3xl font-bold text-zinc-100">Servicios</h1>
   </div>
 
-  <div class="two-col">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 
     <!-- Tabla -->
-    <div class="card">
-      <div class="card-head">
-        <span class="card-head-label">Catálogo</span>
-        <span class="badge">{{ servicios.length }} servicios</span>
+    <div class="lg:col-span-2 bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+      <div class="px-6 py-4 border-b border-zinc-800 flex items-center justify-between">
+        <p class="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Catálogo</p>
+        <span class="text-xs text-zinc-500 bg-zinc-800 border border-zinc-700 px-3 py-1 rounded-full">
+          {{ servicios.length }} servicios
+        </span>
       </div>
 
-      <div *ngIf="cargando" class="empty-state">
-        <p class="empty-text loading">Cargando...</p>
+      <div *ngIf="cargando" class="px-6 py-16 text-center">
+        <p class="text-zinc-600 text-sm animate-pulse">Cargando...</p>
       </div>
 
-      <div *ngIf="!cargando && servicios.length === 0" class="empty-state">
-        <p class="empty-icon">✂️</p>
-        <p class="empty-text">No hay servicios registrados</p>
+      <div *ngIf="!cargando && servicios.length === 0" class="px-6 py-16 text-center">
+        <p class="text-zinc-600 text-sm">No hay servicios registrados</p>
       </div>
 
-      <table *ngIf="!cargando && servicios.length > 0" class="data-table">
-        <thead>
+      <table *ngIf="!cargando && servicios.length > 0" class="w-full text-sm">
+        <thead class="bg-zinc-950">
           <tr>
-            <th>Servicio</th>
-            <th>Precio COP</th>
-            <th class="th-center">Acciones</th>
+            <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Servicio</th>
+            <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Precio COP</th>
+            <th class="px-6 py-3 text-center text-xs font-semibold text-zinc-500 uppercase tracking-widest">Acciones</th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let s of servicios">
-            <td class="td-primary">{{ s.nombre }}</td>
-            <!-- ✅ Precio en pesos colombianos -->
-            <td class="td-price">{{ s.precio | currency:'COP':'symbol-narrow':'1.0-0':'es-CO' }}</td>
-            <td class="td-center">
-              <div class="action-group">
-                <button (click)="editarPrecio(s)" class="btn-edit-sm">Editar</button>
-                <button (click)="eliminarServicio(s.id!)" class="btn-danger-sm">Eliminar</button>
+        <tbody class="divide-y divide-zinc-800">
+          <!-- ✅ Precio en pesos colombianos -->
+          <tr *ngFor="let s of servicios" class="hover:bg-zinc-800/50 transition-colors">
+            <td class="px-6 py-4 text-zinc-100 font-medium">{{ s.nombre }}</td>
+            <td class="px-6 py-4 text-emerald-400 font-semibold tabular-nums">
+              {{ s.precio | currency:'COP':'symbol-narrow':'1.0-0':'es-CO' }}
+            </td>
+            <td class="px-6 py-4">
+              <div class="flex items-center justify-center gap-2">
+                <button (click)="editarPrecio(s)"
+                  class="text-xs font-semibold text-indigo-400 hover:text-indigo-300 bg-indigo-950/40 hover:bg-indigo-950/70 border border-indigo-900/50 px-3 py-1.5 rounded-md transition-colors">
+                  Editar
+                </button>
+                <button (click)="eliminarServicio(s.id!)"
+                  class="text-xs font-semibold text-red-400 hover:text-red-300 bg-red-950/40 hover:bg-red-950/70 border border-red-900/50 px-3 py-1.5 rounded-md transition-colors">
+                  Eliminar
+                </button>
               </div>
             </td>
           </tr>
@@ -50,96 +57,31 @@
     </div>
 
     <!-- Formulario -->
-    <div class="card form-card">
-      <div class="card-head">
-        <span class="card-head-label">Nuevo Servicio</span>
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+      <div class="px-6 py-4 border-b border-zinc-800">
+        <p class="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Nuevo Servicio</p>
       </div>
-      <div class="form-body">
-        <div class="form-group">
-          <label class="form-label">Nombre del servicio</label>
-          <input [(ngModel)]="nombre" type="text" placeholder="Ej: Corte clásico" class="form-input">
+      <div class="p-6 space-y-4">
+        <div class="space-y-1.5">
+          <label class="text-xs font-semibold text-zinc-500 uppercase tracking-widest">Nombre</label>
+          <input [(ngModel)]="nombre" type="text" placeholder="Ej: Corte clásico"
+            class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-4 py-2.5 text-zinc-100 text-sm placeholder-zinc-600 focus:outline-none focus:border-indigo-500 transition-colors">
         </div>
-        <div class="form-group">
-          <label class="form-label">Precio en COP</label>
-          <div class="input-prefix-wrap">
-            <span class="input-prefix">$</span>
-            <input [(ngModel)]="precio" type="number" placeholder="25000" class="form-input input-with-prefix">
+        <div class="space-y-1.5">
+          <label class="text-xs font-semibold text-zinc-500 uppercase tracking-widest">Precio en COP</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm font-medium">$</span>
+            <input [(ngModel)]="precio" type="number" placeholder="25000"
+              class="w-full bg-zinc-950 border border-zinc-700 rounded-lg pl-8 pr-4 py-2.5 text-zinc-100 text-sm placeholder-zinc-600 focus:outline-none focus:border-indigo-500 transition-colors">
           </div>
-          <span class="form-hint">Ingresa el valor en pesos colombianos</span>
+          <p class="text-xs text-zinc-600">Valor en pesos colombianos</p>
         </div>
-        <button (click)="agregarServicio()" class="btn-primary">+ Agregar servicio</button>
+        <button (click)="agregarServicio()"
+          class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-lg text-sm transition-colors">
+          Agregar servicio
+        </button>
       </div>
     </div>
 
   </div>
 </div>
-
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #0e0e10; --surface: #161618; --card: #1a1a1d;
-    --border: #222226; --border2: #2e2e34;
-    --text: #d8d8dc; --muted: #606068; --muted2: #48484e;
-  }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-
-  .page-wrap { min-height: calc(100vh - 58px); background: var(--bg); padding: 40px; max-width: 1100px; margin: 0 auto; }
-  .page-header { margin-bottom: 32px; }
-  .page-eyebrow { color: var(--muted); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
-  .page-title { color: var(--text); font-family: 'Georgia', serif; font-size: 28px; font-weight: 700; }
-
-  .two-col { display: grid; grid-template-columns: 1fr 320px; gap: 20px; align-items: start; }
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-  .form-card { overflow: visible; }
-  .card-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--border); }
-  .card-head-label { color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
-  .badge { background: var(--surface); border: 1px solid var(--border); color: var(--muted2); font-size: 11px; padding: 3px 10px; border-radius: 20px; }
-
-  .empty-state { padding: 48px 20px; text-align: center; }
-  .empty-icon { font-size: 28px; margin-bottom: 10px; }
-  .empty-text { color: var(--muted); font-size: 14px; }
-  .loading { animation: pulse 1.5s infinite; }
-
-  .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-  .data-table thead { background: var(--surface); }
-  .data-table th { padding: 12px 20px; color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
-  .data-table tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
-  .data-table tbody tr:last-child { border-bottom: none; }
-  .data-table tbody tr:hover { background: #1e1e22; }
-  .td-primary { padding: 14px 20px; color: var(--text); font-weight: 500; }
-  .td-muted { padding: 14px 20px; color: var(--muted); }
-  .td-price { padding: 14px 20px; color: #a0c8a0; font-weight: 600; font-size: 14px; font-variant-numeric: tabular-nums; }
-  .th-center, .td-center { text-align: center; padding: 14px 20px; }
-  .action-group { display: flex; gap: 6px; justify-content: center; }
-
-  .btn-edit-sm {
-    background: #141820; border: 1px solid #1e2836; color: #7090b0;
-    padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all .2s;
-  }
-  .btn-edit-sm:hover { background: #1a2030; border-color: #2a3a50; }
-  .btn-danger-sm {
-    background: #1f1414; border: 1px solid #3d1f1f; color: #c87070;
-    padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all .2s;
-  }
-  .btn-danger-sm:hover { background: #2a1a1a; border-color: #5a2a2a; }
-
-  .form-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-label { color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
-  .input-prefix-wrap { position: relative; display: flex; align-items: center; }
-  .input-prefix { position: absolute; left: 14px; color: var(--muted2); font-size: 14px; }
-  .form-input {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-    padding: 10px 14px; color: var(--text); font-size: 14px; outline: none; transition: border-color .2s; width: 100%;
-  }
-  .input-with-prefix { padding-left: 28px; }
-  .form-input::placeholder { color: var(--muted2); }
-  .form-input:focus { border-color: var(--border2); }
-  .form-hint { color: var(--muted2); font-size: 11px; }
-  .btn-primary {
-    background: #1e1e22; border: 1px solid var(--border2); color: var(--text);
-    padding: 11px 20px; border-radius: 8px; font-size: 14px; font-weight: 500;
-    cursor: pointer; transition: all .2s; width: 100%;
-  }
-  .btn-primary:hover { background: #252528; border-color: #42424a; }
-</style>

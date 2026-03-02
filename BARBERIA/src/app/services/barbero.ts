@@ -24,7 +24,7 @@ export interface Cita {
   hora: string;
 }
 
-// ✅ Cambia esta URL por la de tu backend en producción (Render, Railway, etc.)
+
 const BASE = 'http://localhost:3000/api';
 const TIMEOUT_MS = 12000; // 12 segundos — si el backend no responde, falla rápido
 
@@ -33,7 +33,7 @@ export class BarberosServices {
 
   constructor(private http: HttpClient) {}
 
-  // ─── Barberos ─────────────────────────────────────────────
+  //  barberos //
   getBarberos(): Observable<Barbero[]> {
     return this.http.get<Barbero[]>(`${BASE}/barberos`).pipe(
       timeout(TIMEOUT_MS),
@@ -55,7 +55,7 @@ export class BarberosServices {
     );
   }
 
-  // ─── Servicios ────────────────────────────────────────────
+  // servicios //
   getServicios(): Observable<Servicio[]> {
     return this.http.get<Servicio[]>(`${BASE}/servicios`).pipe(
       timeout(TIMEOUT_MS),
@@ -84,7 +84,7 @@ export class BarberosServices {
     );
   }
 
-  // ─── Citas ────────────────────────────────────────────────
+  // citas //
   getCitas(): Observable<any[]> {
     return this.http.get<any[]>(`${BASE}/citas`).pipe(
       timeout(TIMEOUT_MS),

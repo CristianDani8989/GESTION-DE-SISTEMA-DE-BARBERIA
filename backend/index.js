@@ -12,7 +12,7 @@ const db = new sqLite3.Database('./BARBERIA.DB', sqLite3.OPEN_READWRITE, (err) =
     } else {
         db.run('PRAGMA busy_timeout = 10000');
         db.run('PRAGMA journal_mode = WAL');
-        console.log("✅ Conectado a BARBERIA.DB");
+        console.log("Conectado a BARBERIA.DB");
     }
 });
 
@@ -123,4 +123,4 @@ app.post('/api/login', (req, res) => {
 // ── Ping (evita cold start en Render/Railway) ──
 app.get('/ping', (req, res) => res.json({ ok: true }));
 
-app.listen(3000, () => console.log("🚀 Servidor en http://localhost:3000"));
+app.listen(3000, () => console.log("Servidor en http://localhost:3000"));

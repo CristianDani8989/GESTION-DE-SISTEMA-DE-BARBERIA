@@ -1,80 +1,119 @@
-<nav *ngIf="!esLoginPage" class="navbar">
-  <a routerLink="/" class="navbar-logo">
-    <span class="logo-icon">✂</span>
-    <span class="logo-text">Corte & Clase</span>
-  </a>
+<nav *ngIf="!esLoginPage" class="fixed top-0 left-0 right-0 z-50 glass-strong">
+   <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
 
-  <!-- Navegación pública -->
-  <div class="navbar-links" *ngIf="!esAdmin">
-    <a routerLink="/" routerLinkActive="nav-active" [routerLinkActiveOptions]="{exact:true}" class="nav-link">Inicio</a>
-    <a routerLink="/gestion" routerLinkActive="nav-active" class="nav-link">Reservas</a>
-    <a routerLink="/login" class="nav-btn">Admin</a>
-  </div>
+      <!-- Logo -->
+      <a routerLink="/" class="flex items-center gap-2.5 group">
+         <div
+            class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/20 group-hover:shadow-amber-500/40 transition-shadow duration-300">
+            <svg class="w-5 h-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+               <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-7 7m7-7l-7-7" />
+            </svg>
+         </div>
+         <span class="font-display font-bold text-lg tracking-tight">
+            <span class="text-gradient-amber">Corte</span>
+            <span class="text-zinc-400 font-light mx-0.5">&</span>
+            <span class="text-white">Clase</span>
+         </span>
+      </a>
 
-  <!-- Navegación admin -->
-  <div class="navbar-links" *ngIf="esAdmin">
-    <a routerLink="/admin"           routerLinkActive="nav-active" [routerLinkActiveOptions]="{exact:true}" class="nav-link">Dashboard</a>
-    <a routerLink="/admin/barberos"  routerLinkActive="nav-active" class="nav-link">Barberos</a>
-    <a routerLink="/admin/servicios" routerLinkActive="nav-active" class="nav-link">Servicios</a>
-    <a routerLink="/admin/citas"     routerLinkActive="nav-active" class="nav-link">Citas</a>
-    <button (click)="cerrarSesion()" class="nav-btn nav-btn-danger">Salir</button>
-  </div>
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center gap-1" *ngIf="!esAdmin">
+         <a routerLink="/" routerLinkActive="!text-white bg-white/10" [routerLinkActiveOptions]="{exact:true}"
+            class="text-zinc-400 hover:text-white text-sm font-medium px-4 py-2 rounded-lg transition-all duration-300 hover:bg-white/5">
+            Inicio
+         </a>
+         <a routerLink="/gestion" routerLinkActive="!text-white bg-white/10"
+            class="text-zinc-400 hover:text-white text-sm font-medium px-4 py-2 rounded-lg transition-all duration-300 hover:bg-white/5">
+            Reservas
+         </a>
+         <a routerLink="/login"
+            class="ml-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black text-sm font-bold px-5 py-2 rounded-lg transition-all duration-300 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 hover:-translate-y-0.5">
+            Admin
+         </a>
+      </div>
+
+      <!-- Admin Desktop Menu -->
+      <div class="hidden md:flex items-center gap-1" *ngIf="esAdmin">
+         <a routerLink="/admin" routerLinkActive="!text-white bg-white/10" [routerLinkActiveOptions]="{exact:true}"
+            class="text-zinc-400 hover:text-white text-sm font-medium px-4 py-2 rounded-lg transition-all duration-300 hover:bg-white/5">
+            Dashboard
+         </a>
+         <a routerLink="/admin/barberos" routerLinkActive="!text-white bg-white/10"
+            class="text-zinc-400 hover:text-white text-sm font-medium px-4 py-2 rounded-lg transition-all duration-300 hover:bg-white/5">
+            Barberos
+         </a>
+         <a routerLink="/admin/servicios" routerLinkActive="!text-white bg-white/10"
+            class="text-zinc-400 hover:text-white text-sm font-medium px-4 py-2 rounded-lg transition-all duration-300 hover:bg-white/5">
+            Servicios
+         </a>
+         <a routerLink="/admin/citas" routerLinkActive="!text-white bg-white/10"
+            class="text-zinc-400 hover:text-white text-sm font-medium px-4 py-2 rounded-lg transition-all duration-300 hover:bg-white/5">
+            Citas
+         </a>
+         <button (click)="cerrarSesion()"
+            class="ml-3 text-zinc-400 hover:text-red-400 text-sm font-semibold px-4 py-2 rounded-lg border border-zinc-800 hover:border-red-500/30 hover:bg-red-500/5 transition-all duration-300">
+            Salir
+         </button>
+      </div>
+
+      <!-- Mobile Toggle -->
+      <button class="md:hidden text-zinc-400 hover:text-amber-500 transition-colors p-2 rounded-lg hover:bg-white/5"
+         (click)="menuOpen = !menuOpen">
+         <svg class="w-6 h-6 transition-transform duration-300" [class.rotate-180]="menuOpen" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path *ngIf="!menuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+               d="M4 6h16M4 12h16M4 18h16" />
+            <path *ngIf="menuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+               d="M6 18L18 6M6 6l12 12" />
+         </svg>
+      </button>
+   </div>
+
+   <!-- Mobile Menu -->
+   <div *ngIf="menuOpen" class="md:hidden border-t border-white/5 px-6 py-5 space-y-1 animate-slideDown">
+
+      <!-- Public links -->
+      <ng-container *ngIf="!esAdmin">
+         <a routerLink="/" (click)="menuOpen = false"
+            class="block text-zinc-300 hover:text-white text-sm font-medium px-4 py-3 rounded-lg hover:bg-white/5 transition-all">
+            Inicio
+         </a>
+         <a routerLink="/gestion" (click)="menuOpen = false"
+            class="block text-zinc-300 hover:text-white text-sm font-medium px-4 py-3 rounded-lg hover:bg-white/5 transition-all">
+            Reservas
+         </a>
+         <a routerLink="/login" (click)="menuOpen = false"
+            class="block text-center bg-gradient-to-r from-amber-500 to-amber-600 text-black text-sm font-bold px-4 py-3 rounded-lg mt-3">
+            Panel Admin
+         </a>
+      </ng-container>
+
+      <!-- Admin links -->
+      <ng-container *ngIf="esAdmin">
+         <a routerLink="/admin" (click)="menuOpen = false"
+            class="block text-zinc-300 hover:text-white text-sm font-medium px-4 py-3 rounded-lg hover:bg-white/5 transition-all">
+            Dashboard
+         </a>
+         <a routerLink="/admin/barberos" (click)="menuOpen = false"
+            class="block text-zinc-300 hover:text-white text-sm font-medium px-4 py-3 rounded-lg hover:bg-white/5 transition-all">
+            Barberos
+         </a>
+         <a routerLink="/admin/servicios" (click)="menuOpen = false"
+            class="block text-zinc-300 hover:text-white text-sm font-medium px-4 py-3 rounded-lg hover:bg-white/5 transition-all">
+            Servicios
+         </a>
+         <a routerLink="/admin/citas" (click)="menuOpen = false"
+            class="block text-zinc-300 hover:text-white text-sm font-medium px-4 py-3 rounded-lg hover:bg-white/5 transition-all">
+            Citas
+         </a>
+         <button (click)="cerrarSesion(); menuOpen = false"
+            class="w-full text-left text-red-400 text-sm font-semibold px-4 py-3 rounded-lg hover:bg-red-500/10 transition-all mt-2">
+            Cerrar Sesión
+         </button>
+      </ng-container>
+   </div>
 </nav>
 
-<style>
-  .navbar {
-    background: #111113;
-    border-bottom: 1px solid #222226;
-    padding: 0 32px;
-    height: 58px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .navbar-logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-  }
-  .logo-icon { color: #a0a0a8; font-size: 18px; }
-  .logo-text {
-    font-family: 'Georgia', serif;
-    font-weight: 700;
-    color: #e2e2e4;
-    font-size: 15px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-  .navbar-links { display: flex; align-items: center; gap: 4px; }
-  .nav-link {
-    color: #686870;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 6px 14px;
-    border-radius: 6px;
-    transition: color .2s, background .2s;
-  }
-  .nav-link:hover { color: #c8c8cc; background: #1c1c1f; }
-  .nav-active { color: #c8c8cc !important; }
-  .nav-btn {
-    margin-left: 8px;
-    padding: 6px 18px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid #2e2e33;
-    background: #1a1a1d;
-    color: #c8c8cc;
-    text-decoration: none;
-    transition: all .2s;
-  }
-  .nav-btn:hover { background: #242428; border-color: #3a3a40; color: #e8e8ec; }
-  .nav-btn-danger { border-color: #3d1f1f; background: #1f1414; color: #c87070; }
-  .nav-btn-danger:hover { background: #2a1a1a; border-color: #5a2a2a; color: #e08080; }
-</style>
+<!-- Spacer for fixed navbar -->
+<div *ngIf="!esLoginPage" class="h-16"></div>

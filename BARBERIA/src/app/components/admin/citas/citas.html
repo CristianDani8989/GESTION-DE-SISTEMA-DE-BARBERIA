@@ -1,94 +1,55 @@
-<div class="page-wrap">
+<div class="min-h-screen bg-zinc-950 px-8 py-10 max-w-6xl mx-auto">
 
-  <div class="page-header">
+  <div class="flex items-end justify-between mb-8">
     <div>
-      <p class="page-eyebrow">Administración</p>
-      <h1 class="page-title">Gestión de Citas</h1>
+      <p class="text-xs font-semibold text-indigo-400 uppercase tracking-[0.25em] mb-1">Administración</p>
+      <h1 class="text-3xl font-bold text-zinc-100">Gestión de Citas</h1>
     </div>
-    <span *ngIf="!cargando" class="badge">{{ citas.length }} cita(s) registradas</span>
+    <span *ngIf="!cargando" class="text-xs text-zinc-500 bg-zinc-900 border border-zinc-800 px-4 py-2 rounded-full">
+      {{ citas.length }} cita(s) registradas
+    </span>
   </div>
 
-  <div *ngIf="cargando" class="empty-state">
-    <p class="empty-text loading">Cargando citas...</p>
+  <div *ngIf="cargando" class="bg-zinc-900 border border-zinc-800 rounded-xl py-20 text-center">
+    <p class="text-zinc-600 text-sm animate-pulse">Cargando citas...</p>
   </div>
 
-  <div class="card" *ngIf="!cargando">
-    <div *ngIf="citas.length === 0" class="empty-state">
-      <p class="empty-icon">📅</p>
-      <p class="empty-text">No hay citas registradas</p>
+  <div *ngIf="!cargando" class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+
+    <div *ngIf="citas.length === 0" class="py-20 text-center">
+      <p class="text-zinc-600 text-sm">No hay citas registradas</p>
     </div>
 
-    <table *ngIf="citas.length > 0" class="data-table">
-      <thead>
+    <table *ngIf="citas.length > 0" class="w-full text-sm">
+      <thead class="bg-zinc-950">
         <tr>
-          <th>Cliente</th>
-          <th>Barbero</th>
-          <th>Servicio</th>
-          <th>Fecha</th>
-          <th>Hora</th>
-          <th class="th-center">Acción</th>
+          <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Cliente</th>
+          <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Barbero</th>
+          <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Servicio</th>
+          <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Fecha</th>
+          <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Hora</th>
+          <th class="px-6 py-3 text-center text-xs font-semibold text-zinc-500 uppercase tracking-widest">Acción</th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let c of citas">
-          <td class="td-primary">{{ c.cliente }}</td>
-          <td class="td-muted">{{ c.barbero }}</td>
-          <td>
-            <span class="service-tag">{{ c.servicio }}</span>
+      <tbody class="divide-y divide-zinc-800">
+        <tr *ngFor="let c of citas" class="hover:bg-zinc-800/40 transition-colors">
+          <td class="px-6 py-4 text-zinc-100 font-medium">{{ c.cliente }}</td>
+          <td class="px-6 py-4 text-zinc-400">{{ c.barbero }}</td>
+          <td class="px-6 py-4">
+            <span class="text-xs font-medium text-indigo-300 bg-indigo-950/50 border border-indigo-900/50 px-2.5 py-1 rounded-md">
+              {{ c.servicio }}
+            </span>
           </td>
-          <td class="td-muted td-mono">{{ c.fecha }}</td>
-          <td class="td-muted td-mono">{{ c.hora }}</td>
-          <td class="td-center">
-            <button (click)="cancelarCita(c.id)" class="btn-danger-sm">Cancelar</button>
+          <td class="px-6 py-4 text-zinc-400 tabular-nums">{{ c.fecha }}</td>
+          <td class="px-6 py-4 text-zinc-400 tabular-nums">{{ c.hora }}</td>
+          <td class="px-6 py-4 text-center">
+            <button (click)="cancelarCita(c.id)"
+              class="text-xs font-semibold text-red-400 hover:text-red-300 bg-red-950/40 hover:bg-red-950/70 border border-red-900/50 px-3 py-1.5 rounded-md transition-colors">
+              Cancelar
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-
 </div>
-
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #0e0e10; --surface: #161618; --card: #1a1a1d;
-    --border: #222226; --border2: #2e2e34;
-    --text: #d8d8dc; --muted: #606068; --muted2: #48484e;
-  }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-
-  .page-wrap { min-height: calc(100vh - 58px); background: var(--bg); padding: 40px; max-width: 1100px; margin: 0 auto; }
-  .page-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; }
-  .page-eyebrow { color: var(--muted); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
-  .page-title { color: var(--text); font-family: 'Georgia', serif; font-size: 28px; font-weight: 700; }
-  .badge { background: var(--card); border: 1px solid var(--border); color: var(--muted2); font-size: 12px; padding: 5px 14px; border-radius: 20px; }
-
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-  .empty-state { padding: 64px 20px; text-align: center; }
-  .empty-icon { font-size: 28px; margin-bottom: 10px; }
-  .empty-text { color: var(--muted); font-size: 14px; }
-  .loading { animation: pulse 1.5s infinite; }
-
-  .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-  .data-table thead { background: var(--surface); }
-  .data-table th { padding: 13px 20px; color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
-  .data-table tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
-  .data-table tbody tr:last-child { border-bottom: none; }
-  .data-table tbody tr:hover { background: #1e1e22; }
-  .td-primary { padding: 15px 20px; color: var(--text); font-weight: 500; }
-  .td-muted { padding: 15px 20px; color: var(--muted); }
-  .td-mono { font-variant-numeric: tabular-nums; font-size: 13px; }
-  .th-center, .td-center { text-align: center; padding: 15px 20px; }
-
-  .service-tag {
-    display: inline-block;
-    background: var(--surface); border: 1px solid var(--border2);
-    color: #8a8a96; font-size: 12px; padding: 3px 10px; border-radius: 20px;
-    margin: 15px 20px;
-  }
-  .btn-danger-sm {
-    background: #1f1414; border: 1px solid #3d1f1f; color: #c87070;
-    padding: 5px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all .2s;
-  }
-  .btn-danger-sm:hover { background: #2a1a1a; border-color: #5a2a2a; }
-</style>

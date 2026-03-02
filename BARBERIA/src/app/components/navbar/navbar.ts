@@ -9,7 +9,8 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './navbar.html'
 })
 export class Navbar {
-  constructor(private router: Router) {}
+  menuOpen = false;
+  constructor(private router: Router) { }
 
   get esAdmin(): boolean {
     return localStorage.getItem('admin') === 'true';
