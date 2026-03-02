@@ -1,42 +1,64 @@
-<div class="min-h-screen bg-zinc-950 px-8 py-10 max-w-6xl mx-auto">
+<div class="min-h-screen bg-[#050505] px-6 md:px-8 py-10 max-w-6xl mx-auto">
 
-  <div class="flex items-end justify-between mb-8">
+  <!-- Header -->
+  <div class="flex items-end justify-between mb-8 animate-slideUp">
     <div>
-      <p class="text-xs font-semibold text-indigo-400 uppercase tracking-[0.25em] mb-1">Administración</p>
-      <h1 class="text-3xl font-bold text-zinc-100">Gestión de Citas</h1>
+      <span class="text-amber-500 text-xs font-semibold uppercase tracking-[0.25em] mb-2 block">Administración</span>
+      <h1 class="font-display text-3xl font-bold text-white">Gestión de Citas</h1>
     </div>
-    <span *ngIf="!cargando" class="text-xs text-zinc-500 bg-zinc-900 border border-zinc-800 px-4 py-2 rounded-full">
-      {{ citas.length }} cita(s) registradas
+    <span *ngIf="!cargando"
+      class="text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 px-4 py-2 rounded-full font-semibold">
+      {{ citas.length }} cita(s)
     </span>
   </div>
 
-  <div *ngIf="cargando" class="bg-zinc-900 border border-zinc-800 rounded-xl py-20 text-center">
-    <p class="text-zinc-600 text-sm animate-pulse">Cargando citas...</p>
+  <!-- Cargando -->
+  <div *ngIf="cargando" class="glass rounded-2xl py-20 text-center">
+    <div class="w-8 h-8 border-2 border-amber-500/30 border-t-amber-500 rounded-full animate-spin mx-auto mb-3"></div>
+    <p class="text-zinc-600 text-sm">Cargando citas...</p>
   </div>
 
-  <div *ngIf="!cargando" class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
+  <!-- Contenido -->
+  <div *ngIf="!cargando" class="glass rounded-2xl overflow-hidden animate-slideUp delay-100">
 
+    <!-- Vacío -->
     <div *ngIf="citas.length === 0" class="py-20 text-center">
-      <p class="text-zinc-600 text-sm">No hay citas registradas</p>
+      <div class="w-16 h-16 rounded-2xl bg-zinc-800/50 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+        </svg>
+      </div>
+      <p class="text-zinc-500 text-sm">No hay citas registradas</p>
     </div>
 
+    <!-- Tabla -->
     <table *ngIf="citas.length > 0" class="w-full text-sm">
-      <thead class="bg-zinc-950">
-        <tr>
-          <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Cliente</th>
-          <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Barbero</th>
-          <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Servicio</th>
-          <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Fecha</th>
-          <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Hora</th>
-          <th class="px-6 py-3 text-center text-xs font-semibold text-zinc-500 uppercase tracking-widest">Acción</th>
+      <thead>
+        <tr class="border-b border-white/5">
+          <th class="px-6 py-3.5 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Cliente</th>
+          <th class="px-6 py-3.5 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Barbero</th>
+          <th class="px-6 py-3.5 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Servicio</th>
+          <th class="px-6 py-3.5 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Fecha</th>
+          <th class="px-6 py-3.5 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Hora</th>
+          <th class="px-6 py-3.5 text-center text-xs font-semibold text-zinc-500 uppercase tracking-widest">Acción</th>
         </tr>
       </thead>
-      <tbody class="divide-y divide-zinc-800">
-        <tr *ngFor="let c of citas" class="hover:bg-zinc-800/40 transition-colors">
-          <td class="px-6 py-4 text-zinc-100 font-medium">{{ c.cliente }}</td>
+      <tbody class="divide-y divide-white/5">
+        <tr *ngFor="let c of citas" class="hover:bg-white/[0.03] transition-colors">
+          <td class="px-6 py-4">
+            <div class="flex items-center gap-3">
+              <div
+                class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-xs font-bold">
+                {{ c.cliente.charAt(0) }}
+              </div>
+              <span class="text-white font-medium">{{ c.cliente }}</span>
+            </div>
+          </td>
           <td class="px-6 py-4 text-zinc-400">{{ c.barbero }}</td>
           <td class="px-6 py-4">
-            <span class="text-xs font-medium text-indigo-300 bg-indigo-950/50 border border-indigo-900/50 px-2.5 py-1 rounded-md">
+            <span
+              class="text-xs font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-lg">
               {{ c.servicio }}
             </span>
           </td>
@@ -44,7 +66,7 @@
           <td class="px-6 py-4 text-zinc-400 tabular-nums">{{ c.hora }}</td>
           <td class="px-6 py-4 text-center">
             <button (click)="cancelarCita(c.id)"
-              class="text-xs font-semibold text-red-400 hover:text-red-300 bg-red-950/40 hover:bg-red-950/70 border border-red-900/50 px-3 py-1.5 rounded-md transition-colors">
+              class="text-xs font-semibold text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 px-4 py-1.5 rounded-lg transition-all duration-300">
               Cancelar
             </button>
           </td>

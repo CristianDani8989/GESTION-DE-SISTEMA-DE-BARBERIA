@@ -1,44 +1,72 @@
-<div class="min-h-screen bg-zinc-950 px-8 py-10 max-w-5xl mx-auto">
+<div class="min-h-screen bg-[#050505] px-6 md:px-8 py-10 max-w-6xl mx-auto">
 
-  <div class="mb-8">
-    <p class="text-xs font-semibold text-indigo-400 uppercase tracking-[0.25em] mb-1">Administración</p>
-    <h1 class="text-3xl font-bold text-zinc-100">Barberos</h1>
+  <!-- Header -->
+  <div class="flex items-end justify-between mb-8 animate-slideUp">
+    <div>
+      <span class="text-amber-500 text-xs font-semibold uppercase tracking-[0.25em] mb-2 block">Administración</span>
+      <h1 class="font-display text-3xl font-bold text-white">Barberos</h1>
+    </div>
+    <span *ngIf="!cargando"
+      class="text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 px-4 py-2 rounded-full font-semibold">
+      {{ barberos.length }} registrados
+    </span>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 
     <!-- Tabla -->
-    <div class="lg:col-span-2 bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
-      <div class="px-6 py-4 border-b border-zinc-800 flex items-center justify-between">
+    <div class="lg:col-span-2 glass rounded-2xl overflow-hidden animate-slideUp">
+      <div class="px-6 py-4 border-b border-white/5 flex items-center gap-2">
+        <div class="w-2 h-2 rounded-full bg-amber-500"></div>
         <p class="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Equipo</p>
-        <span class="text-xs text-zinc-500 bg-zinc-800 border border-zinc-700 px-3 py-1 rounded-full">
-          {{ barberos.length }} registrados
-        </span>
       </div>
 
-      <div *ngIf="cargando" class="px-6 py-16 text-center">
-        <p class="text-zinc-600 text-sm animate-pulse">Cargando...</p>
+      <div *ngIf="cargando" class="px-6 py-20 text-center">
+        <div class="w-8 h-8 border-2 border-amber-500/30 border-t-amber-500 rounded-full animate-spin mx-auto mb-3">
+        </div>
+        <p class="text-zinc-600 text-sm">Cargando...</p>
       </div>
 
-      <div *ngIf="!cargando && barberos.length === 0" class="px-6 py-16 text-center">
-        <p class="text-zinc-600 text-sm">No hay barberos registrados</p>
+      <div *ngIf="!cargando && barberos.length === 0" class="px-6 py-20 text-center">
+        <div class="w-14 h-14 rounded-2xl bg-zinc-800/50 flex items-center justify-center mx-auto mb-4">
+          <svg class="w-7 h-7 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+          </svg>
+        </div>
+        <p class="text-zinc-500 text-sm">No hay barberos registrados</p>
       </div>
 
       <table *ngIf="!cargando && barberos.length > 0" class="w-full text-sm">
-        <thead class="bg-zinc-950">
-          <tr>
-            <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Nombre</th>
-            <th class="px-6 py-3 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Especialidad</th>
-            <th class="px-6 py-3 text-center text-xs font-semibold text-zinc-500 uppercase tracking-widest">Acción</th>
+        <thead>
+          <tr class="border-b border-white/5">
+            <th class="px-6 py-3.5 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Nombre</th>
+            <th class="px-6 py-3.5 text-left text-xs font-semibold text-zinc-500 uppercase tracking-widest">Especialidad
+            </th>
+            <th class="px-6 py-3.5 text-center text-xs font-semibold text-zinc-500 uppercase tracking-widest">Acción
+            </th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-zinc-800">
-          <tr *ngFor="let b of barberos" class="hover:bg-zinc-800/50 transition-colors">
-            <td class="px-6 py-4 text-zinc-100 font-medium">{{ b.nombre }}</td>
-            <td class="px-6 py-4 text-zinc-400">{{ b.especialidad }}</td>
+        <tbody class="divide-y divide-white/5">
+          <tr *ngFor="let b of barberos" class="hover:bg-white/[0.03] transition-colors">
+            <td class="px-6 py-4">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-xs font-bold">
+                  {{ b.nombre.charAt(0) }}
+                </div>
+                <span class="text-white font-medium">{{ b.nombre }}</span>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <span
+                class="text-xs font-medium text-violet-300 bg-violet-500/10 border border-violet-500/20 px-3 py-1 rounded-lg">
+                {{ b.especialidad }}
+              </span>
+            </td>
             <td class="px-6 py-4 text-center">
               <button (click)="eliminarBarbero(b.id!)"
-                class="text-xs font-semibold text-red-400 hover:text-red-300 bg-red-950/40 hover:bg-red-950/70 border border-red-900/50 px-3 py-1.5 rounded-md transition-colors">
+                class="text-xs font-semibold text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 px-4 py-1.5 rounded-lg transition-all duration-300">
                 Eliminar
               </button>
             </td>
@@ -48,24 +76,25 @@
     </div>
 
     <!-- Formulario -->
-    <div class="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
-      <div class="px-6 py-4 border-b border-zinc-800">
+    <div class="glass-strong rounded-2xl overflow-hidden animate-slideUp delay-200">
+      <div class="px-6 py-4 border-b border-white/5 flex items-center gap-2">
+        <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
         <p class="text-xs font-semibold text-zinc-400 uppercase tracking-widest">Nuevo Barbero</p>
       </div>
       <div class="p-6 space-y-4">
         <div class="space-y-1.5">
           <label class="text-xs font-semibold text-zinc-500 uppercase tracking-widest">Nombre completo</label>
           <input [(ngModel)]="nombre" type="text" placeholder="Ej: Carlos Mendoza"
-            class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-4 py-2.5 text-zinc-100 text-sm placeholder-zinc-600 focus:outline-none focus:border-indigo-500 transition-colors">
+            class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-amber-500/50 transition-all duration-300">
         </div>
         <div class="space-y-1.5">
           <label class="text-xs font-semibold text-zinc-500 uppercase tracking-widest">Especialidad</label>
           <input [(ngModel)]="especialidad" type="text" placeholder="Ej: Degradado y diseño"
-            class="w-full bg-zinc-950 border border-zinc-700 rounded-lg px-4 py-2.5 text-zinc-100 text-sm placeholder-zinc-600 focus:outline-none focus:border-indigo-500 transition-colors">
+            class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-zinc-600 focus:outline-none focus:border-amber-500/50 transition-all duration-300">
         </div>
         <button (click)="agregarBarbero()"
-          class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-lg text-sm transition-colors">
-          Agregar barbero
+          class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold py-3 rounded-xl text-sm transition-all duration-300 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40">
+          + Agregar barbero
         </button>
       </div>
     </div>
