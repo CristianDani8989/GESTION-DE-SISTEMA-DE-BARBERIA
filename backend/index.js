@@ -1,46 +1,47 @@
 const express = require('express');
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
+require('dotenv').config();
 
 const app = express();
 
-// ─────────────────────────────────────────────
-// CONFIGURACIÓN
-// ─────────────────────────────────────────────
+
+// CONFIGURACIÓN GENERAL
 
 app.use(express.json());
 
 app.use(cors({
-    origin: "*", // 🔒 En producción puedes poner tu URL de Amplify
+    origin: process.env.FRONTEND_URL || "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
 
-// ─────────────────────────────────────────────
+
 // BASE DE DATOS
-// ─────────────────────────────────────────────
 
-const db = new sqlite3.Database('./BARBERIA.DB', sqlite3.OPEN_READWRITE, (err) => {
-    if (err) {
-        console.error("Error al abrir la base de datos:", err.message);
-    } else {
-        db.run('PRAGMA busy_timeout = 10000');
-        db.run('PRAGMA journal_mode = WAL');
-        console.log("Conectado a BARBERIA.DB");
+const db = new sqlite3.Database(
+    process.env.DB_PATH || './BARBERIA.DB',
+    sqlite3.OPEN_READWRITE,
+    (err) => {
+        if (err) {
+            console.error("Error al abrir la base de datos:", err.message);
+        } else {
+            db.run('PRAGMA busy_timeout = 10000');
+            db.run('PRAGMA journal_mode = WAL');
+            console.log("Conectado a la base de datos");
+        }
     }
-});
+);
 
-// ─────────────────────────────────────────────
+
 // RUTA RAÍZ (VERIFICACIÓN)
-// ─────────────────────────────────────────────
 
 app.get('/', (req, res) => {
     res.json({ mensaje: "Backend Barbería funcionando correctamente 💈" });
 });
 
-// ─────────────────────────────────────────────
+
 // BARBEROS
-// ─────────────────────────────────────────────
 
 app.get('/api/barberos', (req, res) => {
     db.all('SELECT * FROM barberos', [], (err, rows) => {
@@ -72,9 +73,8 @@ app.delete('/api/barberos/:id', (req, res) => {
     });
 });
 
-// ─────────────────────────────────────────────
+
 // SERVICIOS
-// ─────────────────────────────────────────────
 
 app.get('/api/servicios', (req, res) => {
     db.all("SELECT * FROM servicios", [], (err, rows) => {
@@ -119,9 +119,8 @@ app.delete('/api/servicios/:id', (req, res) => {
     });
 });
 
-// ─────────────────────────────────────────────
+
 // CITAS
-// ─────────────────────────────────────────────
 
 app.get('/api/citas', (req, res) => {
     const sql = `
@@ -167,9 +166,8 @@ app.delete('/api/citas/:id', (req, res) => {
     });
 });
 
-// ─────────────────────────────────────────────
+
 // LOGIN
-// ─────────────────────────────────────────────
 
 app.post('/api/login', (req, res) => {
     const { usuario, password } = req.body;
@@ -192,17 +190,15 @@ app.post('/api/login', (req, res) => {
     );
 });
 
-// ─────────────────────────────────────────────
-// PING (ANTI-COLD START)
-// ─────────────────────────────────────────────
+
+// PING
 
 app.get('/ping', (req, res) => {
     res.json({ ok: true });
 });
 
-// ─────────────────────────────────────────────
-// PUERTO DINÁMICO (IMPORTANTE PARA RENDER)
-// ─────────────────────────────────────────────
+
+// PUERTO DINÁMICO (RENDER)
 
 const PORT = process.env.PORT || 3000;
 
