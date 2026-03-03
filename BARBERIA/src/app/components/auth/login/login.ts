@@ -28,7 +28,7 @@ export class Login {
     this.cargando = true;
     this.error = '';
 
-    this.http.post<any>('https://gestion-de-sistema-de-barberia-backend.onrender.com/api/login', {
+    this.http.post<any>('http://localhost:3000/api/login', {
       usuario: this.usuario,
       password: this.password
     }).subscribe({
